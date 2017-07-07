@@ -1,4 +1,4 @@
-package com.example.vincent.boxobox.views.fragments.Game;
+package com.example.vincent.boxobox.views.fragments.game;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

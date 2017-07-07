@@ -2,10 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vincent.boxobox.views.fragments.game.GameListFragment">
+    tools:context=".views.MainActivity"
+    >
 
     <TextView
-        android:text="yolo"
+        android:text="Alarm"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

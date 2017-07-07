@@ -16,8 +16,8 @@ public class HomeListFragment extends RecyclerSectionFragment {
 
     @Override
     public void loadSections() {
-        sections.add(new Section("Titre 1","description","https://www.w3schools.com/css/img_fjords.jpg","Show more"));
-        sections.add(new Section("Titre 2","description 2","https://www.w3schools.com/css/img_fjords.jpg","Show more"));
+        sections.add(new Section("Titre 1","description","https://www.w3schools.com/css/img_fjords.jpg","Show more","TEST","TEST"));
+        sections.add(new Section("Titre 2","description 2","https://www.w3schools.com/css/img_fjords.jpg","Show more","TEST","TEST"));
     }
 
 

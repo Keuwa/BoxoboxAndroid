@@ -1,7 +1,5 @@
 package com.example.vincent.boxobox.views;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,16 +13,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.vincent.boxobox.R;
-import com.example.vincent.boxobox.views.fragments.Game.GameContainerFragment;
-import com.example.vincent.boxobox.views.fragments.Game.GameFragment;
-import com.example.vincent.boxobox.views.fragments.Message.MessageContainerFragment;
+import com.example.vincent.boxobox.views.fragments.alarm.AlarmFragment;
+import com.example.vincent.boxobox.views.fragments.game.GameContainerFragment;
+import com.example.vincent.boxobox.views.fragments.game.GameFragment;
+import com.example.vincent.boxobox.views.fragments.message.MessageContainerFragment;
 import com.example.vincent.boxobox.views.fragments.home.HomeContainerFragment;
 import com.example.vincent.boxobox.views.fragments.monitor.MonitorContainerFragment;
 import com.example.vincent.boxobox.views.fragments.monitor.MonitorSectionFragment;
 import com.example.vincent.boxobox.views.viewholder.SectionCardViewHolder;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,17 +56,6 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
 
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
     }
 
 
@@ -95,20 +84,19 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
     //Interface for handling click on button in SectionRecyclerViews
     @Override
-    public void onButtonClicked(String title) {
+    public void onButtonClicked(List<String> types) {
 
 
-        if(title.equals("Piano")){//TODO Better switch
+        if(types.contains("Piano")){//TODO Better switch
             Log.d(this.getClass().toString(),"Piano");
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.container_game_fragment, GameFragment.newInstance(),"testFragment");
             ft.addToBackStack(null);
             ft.commit();
         }
-        if(title.equals("Monitor")){
-            Log.d(this.getClass().toString(),"Monitor");
+        if(types.get(0).equals("MONITOR")){
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.container_monitor_fragment, MonitorSectionFragment.newInstance(),"testFragment");
+            ft.replace(R.id.container_monitor_fragment, MonitorSectionFragment.newInstance(types.get(1)),"testFragment");
             ft.addToBackStack(null);
             ft.commit();
         }
@@ -140,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
                     return MonitorContainerFragment.newInstance();
                 case 3:
                     return MessageContainerFragment.newInstance();
+                case 4:
+                    return AlarmFragment.newInstance();
                 default:
                     return null;
             }
@@ -147,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Override
@@ -156,11 +146,13 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
                 case 0:
                     return "Home";
                 case 1:
-                    return "Jeux";
+                    return "Question";
                 case 2:
                     return "Surveillance";
                 case 3:
                     return "Messages";
+                case 4:
+                    return "Alarm";
             }
             return null;
         }

@@ -1,4 +1,4 @@
-package com.example.vincent.boxobox.views.fragments.Game;
+package com.example.vincent.boxobox.views.fragments.game;
 
 import com.example.vincent.boxobox.model.Section;
 import com.example.vincent.boxobox.views.fragments.RecyclerSectionFragment;
@@ -19,7 +19,7 @@ public class GameListFragment extends RecyclerSectionFragment {
 
     @Override
     public void loadSections() {
-        sections.add(new Section("Piano","Application piano","https://www.transport-de-piano-paris.com/wp-content/uploads/2017/05/Demenagement-piano.jpg","Jouer"));
+        sections.add(new Section("Piano","Application piano","https://www.transport-de-piano-paris.com/wp-content/uploads/2017/05/Demenagement-piano.jpg","Jouer","GAME","PIANO"));
 
     }
 }
