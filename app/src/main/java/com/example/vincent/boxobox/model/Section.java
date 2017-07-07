@@ -1,5 +1,8 @@
 package com.example.vincent.boxobox.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Vincent on 03/07/2017.
  *
@@ -14,12 +17,17 @@ public class Section {
     private String description;
     private String image;
     private String callToAction;
+    private List<String> types;
 
-    public Section(String title, String description, String image,String callToAction) {
+    public Section(String title, String description, String image,String callToAction,String type1,String type2) {
         this.title = title;
         this.description = description;
         this.image = image;
         this.callToAction = callToAction;
+
+        types = new ArrayList<>();
+        this.types.add(type1);
+        this.types.add(type2);
     }
 
     public String getTitle() {
@@ -52,5 +60,13 @@ public class Section {
 
     public void setCallToAction(String callToAction) {
         this.callToAction = callToAction;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
     }
 }

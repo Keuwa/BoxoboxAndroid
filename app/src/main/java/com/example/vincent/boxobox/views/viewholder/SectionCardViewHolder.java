@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.example.vincent.boxobox.R;
 import com.example.vincent.boxobox.model.Section;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -61,10 +63,10 @@ public class SectionCardViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.section_card_button)
     public void onButtonClicked(){
-        sectionButtonClickInterface.onButtonClicked(section.getTitle());
+        sectionButtonClickInterface.onButtonClicked(section.getTypes());
     }
 
     public interface SectionButtonClickInterface {
-        void onButtonClicked(String title);
+        void onButtonClicked(List<String> title);
     }
 }
