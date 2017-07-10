@@ -10,18 +10,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.vincent.boxobox.R;
+import com.example.vincent.boxobox.model.Question;
 import com.example.vincent.boxobox.views.fragments.alarm.AlarmFragment;
-import com.example.vincent.boxobox.views.fragments.game.GameContainerFragment;
-import com.example.vincent.boxobox.views.fragments.game.GameFragment;
+import com.example.vincent.boxobox.views.fragments.question.CreateQuestionFragment;
+import com.example.vincent.boxobox.views.fragments.question.QuestionContainerFragment;
 import com.example.vincent.boxobox.views.fragments.message.MessageContainerFragment;
-import com.example.vincent.boxobox.views.fragments.home.HomeContainerFragment;
 import com.example.vincent.boxobox.views.fragments.monitor.MonitorContainerFragment;
 import com.example.vincent.boxobox.views.fragments.monitor.MonitorSectionFragment;
+import com.example.vincent.boxobox.views.fragments.question.QuestionDetailsFragment;
+import com.example.vincent.boxobox.views.fragments.question.QuestionListFragment;
 import com.example.vincent.boxobox.views.viewholder.SectionCardViewHolder;
 
 import java.util.List;
@@ -29,7 +30,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements SectionCardViewHolder.SectionButtonClickInterface {
+public class MainActivity extends AppCompatActivity implements SectionCardViewHolder.SectionButtonClickInterface,
+        CreateQuestionFragment.CreateQuestionInterface,QuestionListFragment.QuestionListInterface {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -85,23 +87,38 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
     //Interface for handling click on button in SectionRecyclerViews
     @Override
     public void onButtonClicked(List<String> types) {
-
-
-        if(types.contains("Piano")){//TODO Better switch
-            Log.d(this.getClass().toString(),"Piano");
-            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.container_game_fragment, GameFragment.newInstance(),"testFragment");
-            ft.addToBackStack(null);
-            ft.commit();
-        }
         if(types.get(0).equals("MONITOR")){
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.container_monitor_fragment, MonitorSectionFragment.newInstance(types.get(1)),"testFragment");
+            ft.replace(R.id.container_monitor_fragment, MonitorSectionFragment.newInstance(types.get(1)),"MonitorFragment");
             ft.addToBackStack(null);
             ft.commit();
         }
+    }
 
+    @Override
+    public void questionCreated() {
+        getSupportFragmentManager().popBackStack();
+    }
 
+    @Override
+    public void questionCanceled() {
+        getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void showCreationFragment() {
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.container_question_fragment, CreateQuestionFragment.newInstance(),"CreationFragment");
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    @Override
+    public void showDetailFragment(Question question) {
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.container_question_fragment, QuestionDetailsFragment.newInstance(question),"DetailQuestionFragment");
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
 
@@ -121,14 +138,12 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
             switch (position) {
                 case 0:
-                    return HomeContainerFragment.newInstance();
-                case 1:
-                    return GameContainerFragment.newInstance();
-                case 2:
                     return MonitorContainerFragment.newInstance();
-                case 3:
+                case 1:
+                    return QuestionContainerFragment.newInstance();
+                case 2:
                     return MessageContainerFragment.newInstance();
-                case 4:
+                case 3:
                     return AlarmFragment.newInstance();
                 default:
                     return null;
@@ -137,21 +152,19 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
         @Override
         public int getCount() {
-            return 5;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Home";
+                    return "Surveillance";
                 case 1:
                     return "Question";
                 case 2:
-                    return "Surveillance";
-                case 3:
                     return "Messages";
-                case 4:
+                case 3:
                     return "Alarm";
             }
             return null;
