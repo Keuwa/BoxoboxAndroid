@@ -1,27 +1,6 @@
 package com.example.vincent.boxobox.api;
 
-import com.example.vincent.boxobox.model.LoginBody;
 import com.example.vincent.boxobox.model.Luminosity;
-import com.example.vincent.boxobox.model.Noise;
-import com.example.vincent.boxobox.model.Temperature;
-import com.example.vincent.boxobox.model.Token;
-import com.example.vincent.boxobox.model.User;
-
-import org.json.JSONObject;
-
-import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.QueryMap;
-
 /**
  * Created by Vincent on 30/06/2017.
  */
