@@ -2,6 +2,8 @@ package com.example.vincent.boxobox.api;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.example.vincent.boxobox.views.LoginActivity;
 
@@ -81,5 +83,13 @@ public class Connection {
             INSTANCE = new Connection(auth);
         }
         return INSTANCE.apiService;
+    }
+
+    public static String getToken() {
+        if (INSTANCE.authToken == null) {
+            return "null";
+        } else {
+            return INSTANCE.authToken;
+        }
     }
 }

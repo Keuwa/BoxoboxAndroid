@@ -24,4 +24,8 @@
     <string name="r_ponse_de_droite">Réponse de droite</string>
     <string name="annuler">Annuler</string>
     <string name="valider">Valider</string>
+
+    <!-- String for NFC -->
+    <string name="service_name">CardService</string>
+    <string name="card_title">CardEmulation</string>
 </resources>
