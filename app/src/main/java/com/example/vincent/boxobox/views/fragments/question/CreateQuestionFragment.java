@@ -56,7 +56,7 @@ public class CreateQuestionFragment extends Fragment {
         String token = sharedPref.getString(TOKEN_AUTH, "");
         BoxoboxService service = Connection.get(token);
 
-        Question question = new Question(questionText.getText().toString(),null,leftAnswer.toString(),rightAnswer.toString(),new Date(),null);
+        Question question = new Question(questionText.getText().toString(),null,leftAnswer.getText().toString(),rightAnswer.getText().toString(),new Date(),null);
 
         service.postQuestion(question).enqueue(new Callback<Question>() {
             @Override

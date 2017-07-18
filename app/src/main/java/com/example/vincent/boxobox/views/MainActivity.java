@@ -1,5 +1,6 @@
 package com.example.vincent.boxobox.views;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -77,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            /*final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container, SettingsFragment.newInstance());
+            ft.addToBackStack(null);
+            ft.commit();*/
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 

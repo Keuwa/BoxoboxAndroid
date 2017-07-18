@@ -28,4 +28,8 @@
     <!-- String for NFC -->
     <string name="service_name">CardService</string>
     <string name="card_title">CardEmulation</string>
+    <string name="activer_l_alarm_bruit">Activer l\'alarm bruit</string>
+    <string name="activer_l_alarm_luminosit">Activer l\'alarm luminosité</string>
+    <string name="d_sactiver_l_alarm_bruit">Désactiver l\'alarm bruit</string>
+    <string name="d_sactiver_l_alarm_luminosit">Désactiver l\'alarm luminosité</string>
 </resources>

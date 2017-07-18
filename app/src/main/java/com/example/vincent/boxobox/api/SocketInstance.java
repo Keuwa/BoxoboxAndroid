@@ -12,7 +12,7 @@ public class SocketInstance {
 
     static SocketInstance INSTANCE;
     private  Socket mSocket;
-    private final static String CHAT_SERVER_URL = "https://likeeat-api.herokuapp.com";
+    private final static String CHAT_SERVER_URL = "https://boxobox-api.herokuapp.com/";
 
     public SocketInstance(){
         try {
