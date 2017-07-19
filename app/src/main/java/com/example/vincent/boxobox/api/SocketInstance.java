@@ -10,9 +10,9 @@ import io.socket.client.Socket;
 
 public class SocketInstance {
 
-    static SocketInstance INSTANCE;
+    static SocketInstance INSTANCE = new SocketInstance();
     private  Socket mSocket;
-    private final static String CHAT_SERVER_URL = "https://boxobox-api.herokuapp.com/";
+    private final static String CHAT_SERVER_URL = "http://boxobox-api.herokuapp.com";
 
     public SocketInstance(){
         try {

@@ -11,10 +11,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.vincent.boxobox.R;
+import com.example.vincent.boxobox.api.SocketInstance;
 import com.example.vincent.boxobox.model.Question;
 import com.example.vincent.boxobox.views.fragments.alarm.AlarmFragment;
 import com.example.vincent.boxobox.views.fragments.question.CreateQuestionFragment;
@@ -26,15 +29,22 @@ import com.example.vincent.boxobox.views.fragments.question.QuestionDetailsFragm
 import com.example.vincent.boxobox.views.fragments.question.QuestionListFragment;
 import com.example.vincent.boxobox.views.viewholder.SectionCardViewHolder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity implements SectionCardViewHolder.SectionButtonClickInterface,
         CreateQuestionFragment.CreateQuestionInterface,QuestionListFragment.QuestionListInterface {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private boolean isConnected = false;
+
 
     @BindView(R.id.container) ViewPager mViewPager;
     @BindView(R.id.tab_layout)TabLayout tabLayout;
@@ -44,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        SocketInstance.get().connect();
+
+        SocketInstance.get().on(Socket.EVENT_CONNECT, onConnect);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,6 +76,17 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
     }
 
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),"SocketIO conected !!",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

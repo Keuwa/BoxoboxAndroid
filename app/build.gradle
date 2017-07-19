@@ -30,7 +30,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile('io.socket:socket.io-client:0.7.0') {
+    compile ('io.socket:socket.io-client:1.0.0') {
+        // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
 
@@ -46,6 +47,11 @@ dependencies {
 
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'com.squareup.okio:okio:1.13.0'
+
+
 
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     testCompile 'junit:junit:4.12'
