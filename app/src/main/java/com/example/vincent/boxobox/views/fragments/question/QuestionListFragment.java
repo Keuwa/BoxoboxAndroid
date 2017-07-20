@@ -1,5 +1,6 @@
 package com.example.vincent.boxobox.views.fragments.question;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -47,6 +48,7 @@ public class QuestionListFragment extends Fragment {
 
     public static final int NOTIFICATION_ID_QUESTION = 4;
 
+    Activity activity;
 
     @BindView(R.id.question_list)
     RecyclerView recyclerView;
@@ -73,6 +75,10 @@ public class QuestionListFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof QuestionListFragment.QuestionListInterface) {
             questionListInterface = (QuestionListFragment.QuestionListInterface) context;
+            if (context instanceof Activity){
+                activity=(Activity) context;
+            }
+
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -92,6 +98,8 @@ public class QuestionListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_question_container, container, false);
         ButterKnife.bind(this,view);
 
+        this.activity = getActivity();
+
         SocketInstance.get().on("question-answer",onQuestionAnswered);
 
         DividerItemDecoration divider = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
@@ -106,7 +114,7 @@ public class QuestionListFragment extends Fragment {
     private Emitter.Listener onQuestionAnswered = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
@@ -114,14 +122,14 @@ public class QuestionListFragment extends Fragment {
                         String username = data.getString("username");
                         String question = data.getString("question");
                         NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(getContext())
+                                new NotificationCompat.Builder(activity)
                                         .setSmallIcon(R.mipmap.ic_launcher)
                                         .setContentTitle("Boxobox question")
                                         .setContentText(username + " a répondu à la question "+ question);
                         mBuilder.setVibrate(new long[] { 500, 500 });
                         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                         mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                         notificationManager.notify(NOTIFICATION_ID_QUESTION, mBuilder.build());
 
                     } catch (JSONException e) {

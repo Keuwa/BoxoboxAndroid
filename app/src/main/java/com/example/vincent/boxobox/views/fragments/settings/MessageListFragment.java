@@ -1,6 +1,8 @@
 package com.example.vincent.boxobox.views.fragments.settings;
 
+import android.app.Activity;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -31,9 +33,19 @@ import static com.example.vincent.boxobox.views.LoginActivity.TOKEN_AUTH;
 
 public class MessageListFragment extends Fragment {
 
+    Activity activity;
+
     public static final int NOTIFICATION_ID_NOISE = 1;
     public static final int NOTIFICATION_ID_LUMINOSITY = 2;
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Activity){
+            activity=(Activity) context;
+        }
+    }
 
     @OnClick(R.id.button_alarm_noise) void activateAlarmNoise(){
             SocketInstance.get().emit("activate-alarm-noise");
@@ -120,18 +132,18 @@ public class MessageListFragment extends Fragment {
     private Emitter.Listener onAlarmLuminosityTriggered = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getContext())
+                            new NotificationCompat.Builder(activity)
                                     .setSmallIcon(R.mipmap.ic_launcher)
                                     .setContentTitle("Boxobox alarme déclenchée")
                                     .setContentText("L'alarme luminosité à été déclenchée");
                     mBuilder.setVibrate(new long[] { 500, 500 });
                     mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                     mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                    NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+                    NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.notify(NOTIFICATION_ID_LUMINOSITY, mBuilder.build());
                 }
             });
@@ -140,18 +152,18 @@ public class MessageListFragment extends Fragment {
     private Emitter.Listener onAlarmNoiseTriggered = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getContext())
+                            new NotificationCompat.Builder(activity)
                                     .setSmallIcon(R.mipmap.ic_launcher)
                                     .setContentTitle("Boxobox alarme déclenchée")
                                     .setContentText("L'alarme bruit à été déclenchée");
                     mBuilder.setVibrate(new long[] { 500, 500 });
                     mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                     mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                    NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+                    NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.notify(NOTIFICATION_ID_NOISE, mBuilder.build());
                 }
             });
@@ -161,18 +173,18 @@ public class MessageListFragment extends Fragment {
     private Emitter.Listener onAlarmNoiseActivated = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                         NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(getContext())
+                                new NotificationCompat.Builder(activity)
                                         .setSmallIcon(R.mipmap.ic_launcher)
                                         .setContentTitle("Boxobox alarme")
                                         .setContentText("Alarm bruit activée");
                         mBuilder.setVibrate(new long[] { 500, 500 });
                         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                         mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                         notificationManager.notify(NOTIFICATION_ID_NOISE, mBuilder.build());
                 }
             });
@@ -182,18 +194,18 @@ public class MessageListFragment extends Fragment {
     private Emitter.Listener onAlarmLuminosityActivated = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getContext())
+                            new NotificationCompat.Builder(activity)
                                     .setSmallIcon(R.mipmap.ic_launcher)
                                     .setContentTitle("Boxobox alarm")
                                     .setContentText("Alarme luminosité activée");
                     mBuilder.setVibrate(new long[] { 500, 500 });
                     mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                     mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                    NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+                    NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.notify(NOTIFICATION_ID_LUMINOSITY, mBuilder.build());
                 }
             });
@@ -203,18 +215,18 @@ public class MessageListFragment extends Fragment {
     private Emitter.Listener onAlarmNoiseDesactivated = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getContext())
+                            new NotificationCompat.Builder(activity)
                                     .setSmallIcon(R.mipmap.ic_launcher)
                                     .setContentTitle("Boxobox alarme")
                                     .setContentText("Alarme bruit désactivé");
                     mBuilder.setVibrate(new long[] { 500, 500 });
                     mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                     mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                    NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+                    NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.notify(NOTIFICATION_ID_NOISE, mBuilder.build());
                 }
             });
@@ -224,18 +236,18 @@ public class MessageListFragment extends Fragment {
     private Emitter.Listener onAlarmLuminosityDesactivated = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getContext())
+                            new NotificationCompat.Builder(activity)
                                     .setSmallIcon(R.mipmap.ic_launcher)
                                     .setContentTitle("Boxobox alarme")
                                     .setContentText("Alarme luminosité désactivé");
                     mBuilder.setVibrate(new long[] { 500, 500 });
                     mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                     mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                    NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+                    NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.notify(NOTIFICATION_ID_LUMINOSITY, mBuilder.build());
                 }
             });

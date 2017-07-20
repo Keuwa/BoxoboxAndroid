@@ -202,8 +202,8 @@ public class MonitorSectionFragment extends Fragment {
         chart.setData(lineData);
         xAxis.setLabelRotationAngle(-30);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        //xAxis.setAxisMinimum(238 * 60);
-        //xAxis.setAxisMaximum(242 * 60);
+        xAxis.setAxisMinimum(228 * 60);
+        xAxis.setAxisMaximum(240 * 60);
         xAxis.setValueFormatter(new MyXAxisValueFormatter());
         xAxis.setGranularity(1f);
 

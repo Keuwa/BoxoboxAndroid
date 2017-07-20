@@ -1,6 +1,8 @@
 package com.example.vincent.boxobox.views.fragments.alarm;
 
+import android.app.Activity;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,6 +46,8 @@ import static com.example.vincent.boxobox.views.LoginActivity.TOKEN_AUTH;
 public class AlarmFragment extends Fragment {
 
 
+    Activity activity;
+
     @BindView(R.id.alarm_recycler_view)
     RecyclerView recycler;
 
@@ -56,6 +60,15 @@ public class AlarmFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof Activity){
+            activity=(Activity) context;
+        }
+
+    }
 
     public static AlarmFragment newInstance() {
         return new AlarmFragment();
@@ -83,7 +96,7 @@ public class AlarmFragment extends Fragment {
     private Emitter.Listener onAlarmStop = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
@@ -91,14 +104,14 @@ public class AlarmFragment extends Fragment {
                         String username = data.getString("username");
                         String sensor = data.getString("sensor");
                         NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(getContext())
+                                new NotificationCompat.Builder(activity)
                                         .setSmallIcon(R.mipmap.ic_launcher)
                                         .setContentTitle("Boxobox alarme arrétée")
                                         .setContentText("L'alarme " + sensor +" a été arrétée par "+username);
                         mBuilder.setVibrate(new long[] { 500, 500 });
                         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                         mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                         notificationManager.notify(NOTIFICATION_ID_STOP, mBuilder.build());
 
                     } catch (JSONException e) {
