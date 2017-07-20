@@ -8,6 +8,10 @@ import com.example.vincent.boxobox.R;
 import com.example.vincent.boxobox.model.Alarm;
 import com.example.vincent.boxobox.model.Question;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,7 +37,9 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Question question){
+        DateFormat format = new SimpleDateFormat("dd/MM/YY hh:mm", Locale.FRANCE);
         textQuestion.setText(question.getQuestion());
-        questionDate.setText(question.getDate().toString());
+        userName.setText(question.getUser().getUsername());
+        questionDate.setText(format.format(question.getDate()));
     }
 }

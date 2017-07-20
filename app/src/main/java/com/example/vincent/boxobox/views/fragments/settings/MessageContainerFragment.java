@@ -1,4 +1,4 @@
-package com.example.vincent.boxobox.views.fragments.message;
+package com.example.vincent.boxobox.views.fragments.settings;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +16,7 @@ import com.example.vincent.boxobox.R;
 public class MessageContainerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.message_container_fragment, container, false);
+        return inflater.inflate(R.layout.settings_container_fragment, container, false);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class MessageContainerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Fragment  messageFragment =  MessageListFragment.newInstance();
         FragmentTransaction fm = this.getActivity().getSupportFragmentManager().beginTransaction();
-        fm.replace(R.id.container_message_fragment, messageFragment);
+        fm.replace(R.id.container_settings_fragment, messageFragment);
         fm.commit();
     }
 

@@ -6,9 +6,9 @@ import java.util.Date;
  * Created by Vincent on 05/07/2017.
  */
 
-public class Noise extends Record {
+public class Humidity extends Record {
 
-    public Noise(String _id, double value, String date) {
+    public Humidity(String _id, double value, String date) {
         super(_id, value, date);
     }
 }

@@ -19,7 +19,7 @@ public class MonitorListSectionFragment extends RecyclerSectionFragment {
                 "http://icon-icons.com/icons2/621/PNG/512/lightbulb-1_icon-icons.com_56942.png","Show more","MONITOR",MonitorSectionFragment.LUMINOSITY));
         sections.add(new Section("Température","Graphique de la température dans la pièce où à été installer Boxobox",
                 "https://lh4.ggpht.com/Pi0WM4k3Z-Dz-eRVxUD7Xk6NGfANEuABQfKvcsTxy_vNcOxvz2L8h8LwP5nQsyfNlBSR=w300","Show more","MONITOR",MonitorSectionFragment.TEMPERATURE));
-        sections.add(new Section("Bruit","Graphique du bruit dans la pièce où à été installer Boxobox",
-                "https://i.ytimg.com/vi/s5kc8xBMkXI/maxresdefault.jpg","Show more","MONITOR",MonitorSectionFragment.NOISE));
+        sections.add(new Section("Humidity","Graphique de l'humidité dans la pièce où à été installer Boxobox",
+                "https://maxcdn.icons8.com/Share/icon/Science//humidity1600.png","Show more","MONITOR",MonitorSectionFragment.HUMIDITY));
     }
 }
