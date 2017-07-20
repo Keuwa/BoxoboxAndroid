@@ -12,7 +12,10 @@ import com.example.vincent.boxobox.R;
 import com.example.vincent.boxobox.model.Alarm;
 import com.example.vincent.boxobox.model.Section;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,9 +45,12 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Alarm alarm){
+
+        DateFormat format = new SimpleDateFormat("dd/MM/YY hh:mm", Locale.FRANCE);
         type.setText(alarm.getSensor());
-        dateStart.setText(alarm.getStartDate().toString());
-        dateEnd.setText(alarm.getEndDate().toString());
+        dateStart.setText(format.format(alarm.getStartDate()));
+        dateEnd.setText(format.format(alarm.getEndDate()));
+        userName.setText(alarm.getUser().getUsername());
 
     }
 }

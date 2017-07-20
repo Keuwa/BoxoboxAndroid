@@ -2,9 +2,9 @@ package com.example.vincent.boxobox.api;
 
 import com.example.vincent.boxobox.model.Alarm;
 import com.example.vincent.boxobox.model.Answer;
+import com.example.vincent.boxobox.model.Humidity;
 import com.example.vincent.boxobox.model.LoginBody;
 import com.example.vincent.boxobox.model.Luminosity;
-import com.example.vincent.boxobox.model.Noise;
 import com.example.vincent.boxobox.model.Question;
 import com.example.vincent.boxobox.model.Temperature;
 import com.example.vincent.boxobox.model.Token;
@@ -54,8 +54,8 @@ public interface BoxoboxService {
     @GET("temperatures")
     Call<List<Temperature>> getTemperatures();
 
-    @GET("noises")
-    Call<List<Noise>> getNoises();
+    @GET("humidities")
+    Call<List<Humidity>> getHumidities();
 
     @GET("alarms")
     Call<List<Alarm>> getAlarms();

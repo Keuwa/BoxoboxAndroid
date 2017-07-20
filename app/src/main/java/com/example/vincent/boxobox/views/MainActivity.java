@@ -1,8 +1,12 @@
 package com.example.vincent.boxobox.views;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -22,7 +26,7 @@ import com.example.vincent.boxobox.model.Question;
 import com.example.vincent.boxobox.views.fragments.alarm.AlarmFragment;
 import com.example.vincent.boxobox.views.fragments.question.CreateQuestionFragment;
 import com.example.vincent.boxobox.views.fragments.question.QuestionContainerFragment;
-import com.example.vincent.boxobox.views.fragments.message.MessageContainerFragment;
+import com.example.vincent.boxobox.views.fragments.settings.MessageContainerFragment;
 import com.example.vincent.boxobox.views.fragments.monitor.MonitorContainerFragment;
 import com.example.vincent.boxobox.views.fragments.monitor.MonitorSectionFragment;
 import com.example.vincent.boxobox.views.fragments.question.QuestionDetailsFragment;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private boolean isConnected = false;
+    private static int NOTIFICATION_ID_CONNECTION = 5;
 
 
     @BindView(R.id.container) ViewPager mViewPager;
@@ -57,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
         SocketInstance.get().connect();
 
         SocketInstance.get().on(Socket.EVENT_CONNECT, onConnect);
+
+        SocketInstance.get().on("boxobox-online",onBoxoboxOnline);
+        SocketInstance.get().on("boxobox-offline",onBoxoboxOffline);
 
 
 
@@ -72,9 +80,51 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
         // Set up the ViewPager with the sections adapter.
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(3);
 
     }
+
+    private Emitter.Listener onBoxoboxOnline = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(getApplicationContext())
+                                    .setSmallIcon(R.mipmap.ic_launcher)
+                                    .setContentTitle("Boxobox online")
+                                    .setContentText("Votre Boxobox est connectée");
+                    mBuilder.setVibrate(new long[] { 500, 500 });
+                    mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                    mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                    NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.notify(NOTIFICATION_ID_CONNECTION, mBuilder.build());
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener onBoxoboxOffline = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(getApplicationContext())
+                                    .setSmallIcon(R.mipmap.ic_launcher)
+                                    .setContentTitle("Boxobox offline")
+                                    .setContentText("Votre Boxobox est déconnecté");
+                    mBuilder.setVibrate(new long[] { 500, 500 });
+                    mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                    mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                    NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.notify(NOTIFICATION_ID_CONNECTION, mBuilder.build());
+                }
+            });
+        }
+    };
 
     private Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
@@ -104,13 +154,7 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            /*final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.container, SettingsFragment.newInstance());
-            ft.addToBackStack(null);
-            ft.commit();*/
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -130,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
 
     @Override
     public void questionCreated() {
+        SocketInstance.get().emit("question-create");
         getSupportFragmentManager().popBackStack();
     }
 
@@ -175,9 +220,9 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
                 case 1:
                     return QuestionContainerFragment.newInstance();
                 case 2:
-                    return MessageContainerFragment.newInstance();
-                case 3:
                     return AlarmFragment.newInstance();
+                case 3:
+                    return MessageContainerFragment.newInstance();
                 default:
                     return null;
             }
@@ -196,9 +241,9 @@ public class MainActivity extends AppCompatActivity implements SectionCardViewHo
                 case 1:
                     return "Question";
                 case 2:
-                    return "Messages";
+                    return "Alarme";
                 case 3:
-                    return "Alarm";
+                    return "Parametres";
             }
             return null;
         }

@@ -1,5 +1,6 @@
 package com.example.vincent.boxobox.views.fragments.monitor;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import com.example.vincent.boxobox.R;
 import com.example.vincent.boxobox.api.BoxoboxService;
 import com.example.vincent.boxobox.api.Connection;
 import com.example.vincent.boxobox.model.Luminosity;
-import com.example.vincent.boxobox.model.Noise;
+import com.example.vincent.boxobox.model.Humidity;
 import com.example.vincent.boxobox.model.Record;
 import com.example.vincent.boxobox.model.Temperature;
 import com.example.vincent.boxobox.utils.MyXAxisValueFormatter;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,12 +51,15 @@ public class MonitorSectionFragment extends Fragment {
     static String RECORD_TYPE = "RECORD_TYPE";
     public static String LUMINOSITY = "LUMINOSITY";
     public static String TEMPERATURE = "TEMPERATURE";
-    public static String NOISE = "NOISE";
+    public static String HUMIDITY = "HUMIDITY";
 
     List<Record> records;
     String recordsType;
 
     @BindView(R.id.chart)LineChart chart;
+    @OnClick(R.id.refresh_monitor_button)void refreshData(){
+        initGraph();
+    }
 
     public MonitorSectionFragment() {
         // Required empty public constructor
@@ -71,6 +76,11 @@ public class MonitorSectionFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         recordsType = getArguments().getString(RECORD_TYPE);
@@ -84,8 +94,8 @@ public class MonitorSectionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_monitor, container, false);
         ButterKnife.bind(this,view);
 
-
         initGraph();
+
 
 
 
@@ -142,13 +152,13 @@ public class MonitorSectionFragment extends Fragment {
                 }
             });
         }
-        else if(recordsType.equals(NOISE)){
-            service.getNoises().enqueue(new Callback<List<Noise>>() {
+        else if(recordsType.equals(HUMIDITY)){
+            service.getHumidities().enqueue(new Callback<List<Humidity>>() {
                 @Override
-                public void onResponse(Call<List<Noise>> call, Response<List<Noise>> response) {
+                public void onResponse(Call<List<Humidity>> call, Response<List<Humidity>> response) {
                     if(response.body()!=null){
-                        for (Noise noise : response.body()) {
-                            records.add(noise);
+                        for (Humidity humidity : response.body()) {
+                            records.add(humidity);
                         }
                         setData();
                     }
@@ -158,7 +168,7 @@ public class MonitorSectionFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<List<Noise>> call, Throwable t) {
+                public void onFailure(Call<List<Humidity>> call, Throwable t) {
                     t.printStackTrace();
                     Log.e("ERROR Retrofit","Loading luminosity");
                 }
@@ -176,7 +186,7 @@ public class MonitorSectionFragment extends Fragment {
         calendar.add(Calendar.DATE,-10);
 
         long diff = now - calendar.getTimeInMillis();
-        float hours = (int) (diff / (1000 * 60 * 60));
+        float minutes = (int) (diff / (1000 * 60 * 60 * 60));
 
 
         XAxis xAxis = chart.getXAxis();
@@ -192,8 +202,8 @@ public class MonitorSectionFragment extends Fragment {
         chart.setData(lineData);
         xAxis.setLabelRotationAngle(-30);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        //xAxis.setAxisMinimum(-24);
-        //xAxis.setAxisMaximum(hours);
+        //xAxis.setAxisMinimum(238 * 60);
+        //xAxis.setAxisMaximum(242 * 60);
         xAxis.setValueFormatter(new MyXAxisValueFormatter());
         xAxis.setGranularity(1f);
 
@@ -202,16 +212,19 @@ public class MonitorSectionFragment extends Fragment {
     }
 
     private List<Entry> convertData(){
-        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> entries = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE,-10);
 
+
         for (Record data : records) {
             long diff = calendar.getTimeInMillis() - data.getDate().getTime() ;
-            float hours = (int) (diff / (1000 * 60 * 60));
+            //float m = data.getDate().getTime();
+
+            float minutes = (int) (diff / (60000));
             // turn your data into Entry objects
-            Log.d("DIFF",hours+"");
-            entries.add(new Entry(-hours, (long)data.getValue()));
+            //entries.add(new Entry(-minutes, (long)data.getValue()));
+            entries.add(new Entry(-minutes, (long)data.getValue()));
         }
         return entries;
     }

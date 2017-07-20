@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:id="@+id/container_message_fragment"
+            android:id="@+id/container_settings_fragment"
             android:name="listFragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
